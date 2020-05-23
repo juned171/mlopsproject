@@ -23,66 +23,41 @@ train_y = keras.utils.to_categorical(train_y,10)
 test_y = keras.utils.to_categorical(test_y,10)
 
 
-# In[3]:
+# In[ ]:
 
 
-model = Sequential()
-model.add(Dense(units=128,activation="relu",input_shape=(784,)))
-model.add(Dense(units=128,activation="relu"))
-model.add(Dense(units=128,activation="relu"))
-model.add(Dense(units=10,activation="softmax"))
-model.compile(optimizer=SGD(0.001),loss="categorical_crossentropy",metrics=["accuracy"])
+accuracy = 0
+counter =1
+learning_rate =0.1
+epoch= 10
 
 
-# In[5]:
+# In[ ]:
 
 
-model.fit(train_x,train_y,batch_size=32,epochs=10,verbose=1)
 
-
-# In[22]:
-
-
-img = test_x[1356]
-
-
-# In[23]:
-
-
-test_img = img.reshape((1,784))
-
-
-# In[24]:
-
-
-img_class = model.predict_classes(test_img)
-
-
-# In[25]:
-
-
-prediction = img_class[0]
-
-
-# In[26]:
-
-
-classname = img_class[0]
-
-
-# In[27]:
-
-
-print("Class: ",classname)
-
-
-# In[28]:
-
-
-img = img.reshape((28,28))
-plt.imshow(img)
-plt.title(classname)
-plt.show()
+while accuracy < .90 :
+    model = Sequential()
+    for i in range(counter) :
+            model.add(Dense(units=128,activation="relu",input_shape=(784,)))
+    
+    
+    
+    counter = counter +1
+    print("counter is ",counter)
+    
+    model.add(Dense(units=10,activation="softmax"))      
+    learning_rate = learning_rate/10
+    print("learning_rate is", learning_rate)
+    model.compile(optimizer=SGD(learning_rate),loss="categorical_crossentropy",metrics=["accuracy"])
+    model.fit(train_x,train_y,batch_size=32,epochs=epoch,verbose=1)
+    model.summary()
+    Accuracy = model.evaluate(x=test_x,y=test_y,batch_size=32)
+    print("Accuracy: ",Accuracy[1])
+    accuracy = Accuracy[1]
+    print(accuracy)
+    
+   
 
 
 # In[ ]:
@@ -90,44 +65,3 @@ plt.show()
 
 
 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# 
-
-# 
-# 
